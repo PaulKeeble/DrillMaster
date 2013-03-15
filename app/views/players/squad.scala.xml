@@ -1,0 +1,15 @@
+@(player: Player)
+
+<squad nick="@player.rank.displayName">
+  <name>Tier1 Operations</name>
+  <email>admin@@tier1ops.eu</email>
+  <web>http://tier1ops.eu/</web>
+  <picture>@player.rank.picture</picture>
+  <title>Socii Stamus, Cadimus Dividui</title>
+   <member id="@player.bisId" nick="@player.name">
+      <name>@player.name</name>
+      <email>admin@@tier1ops.eu</email>
+      <icq>N/A</icq>
+      <remark>@player.remark</remark>
+   </member>
+</squad>

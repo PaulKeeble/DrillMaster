@@ -1,0 +1,106 @@
+@text-color: #666666;
+@background-color: #F9F9F9;
+@header-color: #292C2F;
+
+body {
+  padding-top: 15px;
+  color: @text-color;
+  background-color:@background-color;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  color: black;
+}
+
+#header {
+  position: absolute;
+  left: 0;
+  background: none repeat scroll 0 0 @header-color;
+  width: 100%;
+  width: 100%;
+  height: 190px;
+}
+
+#branding {
+  padding: 0px;
+  height: 190px;
+  background: url("/assets/images/header_1.jpg") no-repeat scroll 0 0 transparent;
+  height: 190px;
+  margin: auto;
+  width: 980px;
+}
+
+#wrapper {
+  width: 946px;
+  margin: auto;
+  padding: 0;
+  outline: 0;
+  vertical-align: baseline;
+  background-color:white;
+  border: 2px solid #E7E7E7;
+  padding: 1em 1em 1em 1em
+}
+
+#navigation {
+  ul {
+    margin: 0 0 0 0;
+    li {
+      display: inline-block;
+      font-family: arial;
+      font-size: 0.8em;
+      
+      padding: 0em 0.8em 1em 0.8em;
+      
+      a {
+        color: @text-color;
+        text-decoration: none;
+        
+        &:hover {
+          color: black;
+        }
+      }
+	}
+  }
+}
+
+#content {
+  width: 946px;
+  margin: auto;
+  padding: 0;
+  outline: 0;
+  vertical-align: baseline;
+  background-color:white;
+  border: 2px solid #E7E7E7;
+  padding: 1em 1em 1em 1em
+}
+
+
+dl {
+    margin-bottom:20px;
+}
+ 
+dl dt {
+    background:@text-color;
+    color:white;
+    float:left; 
+    font-weight:bold; 
+    margin-right:10px; 
+    padding:5px;  
+    width:100px; 
+}
+ 
+dl dd {
+    margin:2px 0; 
+    padding:5px 0;
+}
+
+
+.disabled {
+  background-color: #ABC;
+}
+
+
+.error {
+  color: red;
+}

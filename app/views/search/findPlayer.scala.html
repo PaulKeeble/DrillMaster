@@ -1,0 +1,18 @@
+@(searchForm:Form[String])(implicit flash:Flash)
+
+@import helper._
+
+@main("Search for player") {
+	
+	@form(routes.Search.find) {
+	  @inputText(searchForm("q"),'_label -> "Player Name")
+	
+      <p style="color:#c33">
+        @flash.get("message")
+      </p>
+
+	
+	  <input type="submit" value="Search">
+	}
+
+}

@@ -1,0 +1,28 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index
+
+GET     /login                      controllers.Application.login
+POST    /login                      controllers.Application.authenticate
+GET     /logout                     controllers.Application.logout
+
+GET     /players                    controllers.Players.form
+POST    /players                    controllers.Players.create
+
+GET     /players/:name              controllers.Players.show(name:String)
+POST    /players/:name              controllers.Players.update(name:String)
+GET     /players/:name/xml          controllers.Players.xml(name:String)
+
+GET     /ranks                      controllers.Ranks.list
+POST    /ranks/:name                controllers.Ranks.update(name:String)
+
+GET     /search                     controllers.Search.form
+POST    /search                     controllers.Search.find
+
+GET     /players/:name/:file        controllers.Images.get(name,file)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)

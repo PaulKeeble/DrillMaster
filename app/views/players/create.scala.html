@@ -1,0 +1,16 @@
+@(createForm: Form[Player])(implicit flash:Flash)
+
+@import helper._
+
+@main("New Player") {
+
+  <h1>New Player</h1>
+  @form(routes.Players.create) {
+  
+    @inputText(createForm("name"),'_label -> "Profile Name") 
+    @inputText(createForm("bisId"),'_label -> "BIS Player ID")
+    @inputText(createForm("remark"),'_label -> "Remark")
+    
+    <input type="submit" value="Save">
+  }
+}

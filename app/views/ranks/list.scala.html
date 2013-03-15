@@ -1,0 +1,28 @@
+@(players: List[Player],ranks:List[String],rankForm: Form[String])(implicit flash:Flash)
+
+@import helper._
+
+@main("Update player ranks") {
+
+  <h1>Player Rank Administration</h1>
+  
+  @for(p <- players) {
+  
+	
+  	@form(routes.Ranks.update(p.name)) {
+
+	  <dl class="name_field">
+	  	<dt>
+	  	  <label for="player name">Player Name</label>
+	  	</dt>
+	  	<dd>
+	  	  <input type="text" id="name" value="@p.name" readonly="readonly" class="disabled"/>
+	  	</dd>
+	  </dl>
+	  @defining(rankForm.fill(p.rank.name)) { filledForm =>
+		@select(filledForm("rank"),options(ranks),'onchange -> "submit()")
+	  }
+	  <hr/>
+	}
+  }
+}
