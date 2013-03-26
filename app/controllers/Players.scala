@@ -11,7 +11,7 @@ import models.Player
 object Players extends Controller with Secured {
   val playerForm = Form(mapping(
     "name" -> nonEmptyText,
-    "bisId" -> number.verifying(min(1)),
+    "bisId" -> nonEmptyText,
     "remark" -> text
     )(Player.apply)(Player.unapplyWithoutRank)
   )

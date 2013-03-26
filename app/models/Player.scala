@@ -5,7 +5,7 @@ import anorm.SqlParser._
 import play.api.db._
 import play.api.Play.current
 
-case class Player(name: String, bisId: Int,remark:String,rank:Rank=Recruit) {
+case class Player(name: String, bisId: String,remark:String,rank:Rank=Recruit) {
   
   def updateRank(newRank:Rank) = copy(rank = newRank)
   
@@ -14,12 +14,12 @@ case class Player(name: String, bisId: Int,remark:String,rank:Rank=Recruit) {
 
 object Player {
   
-  def apply(name:String,bisId:Int,remark:String) : Player = new Player(name,bisId,remark)
+  def apply(name:String,bisId:String,remark:String) : Player = new Player(name,bisId,remark)
 
   def unapplyWithoutRank(player:Player) =Some((player.name,player.bisId,player.remark))
   
   val player = {
-    get[Int]("bisId") ~ 
+    get[String]("bisId") ~ 
     get[String]("name") ~
     get[String]("remark") ~
     get[String]("rank") map {
