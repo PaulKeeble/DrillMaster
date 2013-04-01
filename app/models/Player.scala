@@ -28,7 +28,7 @@ object Player {
   }
 
   def all(): List[Player] = DB.withConnection { implicit c =>
-    SQL("select * from players").as(player *)
+    SQL("select * from players order by name").as(player *)//.sortWith((p1,p2) => p1.name < p2.name)
   }
   
   def create(player:Player) = DB.withConnection { implicit c =>
