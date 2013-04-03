@@ -5,7 +5,7 @@ import PlayProject._
 object ApplicationBuild extends Build {
 
     val appName         = "squadXML"
-    val appVersion      = "1.2.3"
+    val appVersion      = "1.2.4"
 
     val appDependencies = Seq(
       // Add your project dependencies here,
