@@ -53,6 +53,12 @@ object Application extends Controller {
       "success" -> "You've been logged out"
     )
   }
+
+  def javascriptRoutes = Action { implicit request =>
+    import routes.javascript._
+    Ok(
+      Routes.javascriptRouter("jsRoutes")(routes.javascript.Players.delete)).as("text/javascript")
+  }
 }
 
 /**

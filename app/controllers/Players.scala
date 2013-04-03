@@ -45,6 +45,11 @@ object Players extends Controller with Secured {
     }
   }
   
+  def delete(name:String) = isAdmin { implicit request => 
+    Player.delete(name)
+    Ok("done")
+  }
+  
   def show(name:String) = IsAuthenticated { implicit request =>
     Player.find(name) match {
       case Some(player) =>  {

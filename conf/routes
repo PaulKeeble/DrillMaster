@@ -5,6 +5,8 @@
 # Home page
 GET     /                           controllers.Application.index
 
+GET     /javascriptRoutes           controllers.Application.javascriptRoutes
+
 GET     /login                      controllers.Application.login
 POST    /login                      controllers.Application.authenticate
 GET     /logout                     controllers.Application.logout
@@ -15,6 +17,7 @@ POST    /players                    controllers.Players.create
 GET     /players/:name              controllers.Players.show(name:String)
 POST    /players/:name              controllers.Players.update(name:String)
 GET     /players/:name/xml          controllers.Players.xml(name:String)
+DELETE  /players/:name              controllers.Players.delete(name:String)
 
 GET     /ranks                      controllers.Ranks.list
 POST    /ranks/:name                controllers.Ranks.update(name:String)

@@ -8,21 +8,31 @@
   
   @for(p <- players) {
   
+    <div class="player">
+      @form(routes.Ranks.update(p.name)) {
 	
-  	@form(routes.Ranks.update(p.name)) {
-
-	  <dl class="name_field">
-	  	<dt>
-	  	  <label for="player name">Player Name</label>
-	  	</dt>
-	  	<dd>
-	  	  <input type="text" id="name" value="@p.name" readonly="readonly" class="disabled"/>
-	  	</dd>
-	  </dl>
-	  @defining(rankForm.fill(p.rank.name)) { filledForm =>
-		@select(filledForm("rank"),options(ranks),'onchange -> "submit()")
-	  }
-	  <hr/>
-	}
+		  <dl class="name_field">
+		  	<dt>
+		  	  <label for="player name">Player Name</label>
+		  	</dt>
+		  	<dd>
+		  	  <input type="text" id="name" value="@p.name" readonly="readonly" class="disabled"/>
+		  	</dd>
+		  </dl>
+		  @defining(rankForm.fill(p.rank.name)) { filledForm =>
+			@select(filledForm("rank"),options(ranks),'onchange -> "submit()")
+		  }
+      }
+	
+	  <dl id="delete_button">
+        <dt><label for="actions">Actions</label></dt>
+        <dd>
+          <button type="button" class="deleteButton" id="@p.name">Delete</button>
+        </dd>
+      </dl>
+    
+      <hr/>
+    
+    </div>
   }
 }
