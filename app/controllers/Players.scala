@@ -24,7 +24,13 @@ object Players extends Controller with Secured {
     playerForm.bindFromRequest.fold(
       errors => BadRequest(views.html.players.create(errors)),
       player => {
-        Player.createOrUpdate(player)
+      	Player.find(player.name) match {
+      		case Some(existingPlayer) => {
+      			val updated = existingPlayer.limitedUpdate(player)
+      			Player.update(updated)
+      		}
+      		case None => Player.createOrUpdate(player)
+      	}
         Redirect(routes.Players.show(player.name))
       }
     )
