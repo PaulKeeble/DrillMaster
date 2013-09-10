@@ -13,3 +13,7 @@ dist
 /.project
 /RUNNING_PID
 prod.conf
+bin/
+.target/
+.settings/
+.cache
