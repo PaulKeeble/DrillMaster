@@ -1,9 +1,11 @@
 package models
 
+import scala.language.postfixOps
 import anorm._
 import anorm.SqlParser._
 import play.api.db._
 import play.api.Play.current
+
 
 case class Player(name: String, bisId: String,remark:String,rank:Rank=Recruit) {
   

@@ -6,7 +6,5 @@ import play.api.data._
 import play.api.data.Forms._
 
 object Images extends Controller {
-  def get(name:String,file:String) = Action {
-    controllers.Assets.at("/public/images", file)
-  }
+  def get(name:String,file:String) = controllers.Assets.at("/public/images", file)
 }
