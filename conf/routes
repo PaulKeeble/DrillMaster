@@ -22,6 +22,10 @@ DELETE  /players/:name              controllers.Players.delete(name:String)
 GET     /ranks                      controllers.Ranks.list
 POST    /ranks/:name                controllers.Ranks.update(name:String)
 
+GET     /trainings                  controllers.Trainings.list                  
+POST    /trainings                  controllers.Trainings.create
+DELETE  /trainings/:name            controllers.Trainings.delete(name:String)
+
 GET     /search                     controllers.Search.form
 POST    /search                     controllers.Search.find
 

@@ -1,0 +1,30 @@
+@(trainings: List[Training],trainingForm: Form[String])(implicit flash:Flash)
+
+@import helper._
+
+@main("Trainings") {
+
+  <h1>Trainings</h1>
+  
+  <h2>Add New Training</h1>
+  @form(routes.Trainings.create) {
+	  @inputText(trainingForm("name"),'_label -> "Training Name")
+
+	  <input type="submit" value="Add">
+	}
+	
+  <p style="color:#c33">
+    @flash.get("message")
+  </p>
+  
+  <h2>Existing Trainings</h2>
+  @for(t <- trainings) {
+  
+    <div class="training">
+    	<p>@t.name</p>
+    	
+        <button type="button" class="deleteTrainingButton" id="@t.name"/>
+    </div>
+    
+  }
+}

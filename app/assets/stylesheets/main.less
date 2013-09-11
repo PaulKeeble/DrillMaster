@@ -104,3 +104,23 @@ dl dd {
 .error {
   color: red;
 }
+
+.deleteButton (@size: 13px) {
+    background:url(/assets/images/delete.png) no-repeat;
+    cursor:pointer;
+    border: none;
+    width: @size;
+    height: @size
+}
+
+.deleteTrainingButton {
+    .deleteButton;
+}
+
+.deletePlayerButton {
+    .deleteButton;
+}
+
+.training p {
+  display: inline-block;
+}

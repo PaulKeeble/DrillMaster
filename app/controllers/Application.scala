@@ -57,7 +57,7 @@ object Application extends Controller {
   def javascriptRoutes = Action { implicit request =>
     import routes.javascript._
     Ok(
-      Routes.javascriptRouter("jsRoutes")(routes.javascript.Players.delete)).as("text/javascript")
+      Routes.javascriptRouter("jsRoutes")(routes.javascript.Players.delete,routes.javascript.Trainings.delete)).as("text/javascript")
   }
 }
 
