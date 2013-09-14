@@ -1,6 +1,6 @@
-successFn = (data) -> 
+successFn = (data) -> console.log(data)
 
-errorFn = (error) -> 
+errorFn = (error) -> console.log(error)
 
 handlers = {
   success: successFn,
@@ -8,8 +8,6 @@ handlers = {
 }
 
 deletePlayerAjax = (userName) -> jsRoutes.controllers.Players.delete(userName).ajax(handlers)
-
-deleteTrainingAjax = (training) -> jsRoutes.controllers.Trainings.delete(training).ajax(handlers)
 
 getParentDiv = (btnObj) ->
     $(btnObj.target).parents("div.player")
@@ -22,14 +20,37 @@ deletePlayer = (btnObj) ->
     playerName = getPlayerName($parentDiv)
     $parentDiv.css('background-color','#FF5A55').fadeOut('slow',->$parentDiv.remove())
     deletePlayerAjax(playerName)
-    
+
+
+deleteTrainingAjax = (training) -> jsRoutes.controllers.Trainings.delete(training).ajax(handlers)
+
 deleteTraining = (btnObj) ->
 	$parentDiv =$(btnObj.target).parents("div.training")
 	trainingName = btnObj.target.id
 	$parentDiv.css('background-color','#FF5A55').fadeOut('slow',->$parentDiv.remove())
 	deleteTrainingAjax(trainingName)
 
+trainPlayerAjax = (player,training,date) ->
+	d = { 'player': player, 'training': training, 'date': date }
+	c = {
+	    contentType: 'application/json',
+	    data: JSON.stringify(d),
+	    success : successFn,
+	    error : errorFn
+	}
+	jsRoutes.controllers.PlayerTrainings.train().ajax(c)
+
+trainPlayer = (btnObj) ->
+	$parentDiv= $(btnObj.target).parents("div.simplePlayer")
+	playerName = $parentDiv.find('p').text()
+	trainingName = $('#training').val()
+	date = $('#date').val()
+	trainPlayerAjax(playerName,trainingName,date)
+	$parentDiv.css('background-color','#5AD055')
+
+
 $(document).ready(()-> 
 	$(".deletePlayerButton").on('click', (btnObj) -> deletePlayer(btnObj))
 	$(".deleteTrainingButton").on('click', (btnObj) -> deleteTraining(btnObj))
+	$(".trainButton").on('click', (btnObj) -> trainPlayer(btnObj))
 )

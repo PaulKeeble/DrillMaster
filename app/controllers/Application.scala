@@ -57,7 +57,7 @@ object Application extends Controller {
   def javascriptRoutes = Action { implicit request =>
     import routes.javascript._
     Ok(
-      Routes.javascriptRouter("jsRoutes")(routes.javascript.Players.delete,routes.javascript.Trainings.delete)).as("text/javascript")
+      Routes.javascriptRouter("jsRoutes")(routes.javascript.Players.delete,routes.javascript.Trainings.delete,routes.javascript.PlayerTrainings.train)).as("text/javascript")
   }
 }
 
@@ -87,6 +87,10 @@ trait Secured {
   
   def isAdmin(f: => Request[AnyContent] => Result) = Security.Authenticated(adminUsername, onUnauthorized) { user =>
     Action(request => f(request))
+  }
+  
+  def isAdmin[A](parser:BodyParser[A])(f: => Request[A] => Result) = Security.Authenticated(adminUsername, onUnauthorized) { user =>
+    Action(parser)(request => f(request))
   }
 }
 

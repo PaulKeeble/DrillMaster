@@ -1,0 +1,25 @@
+@(trainingForm: Form[(String,String,java.util.Date)],trainings: Seq[Training], players: List[Player])(implicit flash:Flash)
+
+@import helper._
+
+@main("Player Trainings") {
+
+  <h1>Player Training</h1>
+  
+  <h2>Training</h2>
+  
+  @select(field = trainingForm("training"), options = trainings.map(x=>(x.name,x.name)), 'id -> "training", '_label -> "Training" )
+  
+  @inputDate(field = trainingForm("date"), 'id -> "date", '_label -> "Training Date")
+  
+  <h2>Players</h2>
+  
+  @for(p <- players) {
+  
+    <div class="simplePlayer">
+    	<p>@p.name</p>
+    	
+        <button type="button" class="trainButton" id="@p.name">Train</button>
+    </div>
+  }
+}

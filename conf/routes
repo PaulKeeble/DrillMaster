@@ -26,6 +26,9 @@ GET     /trainings                  controllers.Trainings.list
 POST    /trainings                  controllers.Trainings.create
 DELETE  /trainings/:name            controllers.Trainings.delete(name:String)
 
+GET     /playertraining             controllers.PlayerTrainings.index
+POST    /playertraining             controllers.PlayerTrainings.train
+
 GET     /search                     controllers.Search.form
 POST    /search                     controllers.Search.find
 

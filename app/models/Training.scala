@@ -10,19 +10,19 @@ case class Training(name:String)
 
 object Training {
   
-  val training = {
-    get[String]("name") map {
+  val rowParser = {
+    get[String]("trainings.name") map {
         case name => Training(name)
       }
   }
   
   def all(): List[Training] = DB.withConnection { implicit c =>
-    SQL("select * from trainings order by name").as(training *)
+    SQL("select * from trainings order by name").as(rowParser.*)
   }
   
   def find(name:String): Option[Training] = DB.withConnection { implicit c =>
     SQL("select * from trainings where name={name}").on(
-        'name->name).as(training.singleOpt)
+        'name->name).as(rowParser.singleOpt)
   }
   
   def create(name:String) = find(name) match {

@@ -20,17 +20,17 @@ object Player {
 
   def unapplyWithoutRank(player:Player) =Some((player.name,player.bisId,player.remark))
   
-  val player = {
-    get[String]("bisId") ~ 
-    get[String]("name") ~
-    get[String]("remark") ~
-    get[String]("rank") map {
+  val rowParser = {
+    get[String]("players.bisId") ~ 
+    get[String]("players.name") ~
+    get[String]("players.remark") ~
+    get[String]("players.rank") map {
         case bisId ~ name ~ remark ~ rank => Player(name, bisId,remark,Rank(rank))
       }
   }
 
   def all(): List[Player] = DB.withConnection { implicit c =>
-    SQL("select * from players order by name").as(player *)
+    SQL("select * from players order by name").as(rowParser.*)
   }
   
   def create(player:Player) = DB.withConnection { implicit c =>
@@ -59,6 +59,6 @@ object Player {
   
   def find(name:String): Option[Player] = DB.withConnection { implicit c =>
     SQL("select * from players where name={name}").on(
-        'name->name).as(player.singleOpt)
+        'name->name).as(rowParser.singleOpt)
   }
 }
