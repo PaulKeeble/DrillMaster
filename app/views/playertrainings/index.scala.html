@@ -1,4 +1,4 @@
-@(trainingForm: Form[(String,String,java.util.Date)],trainings: Seq[Training], players: List[Player])(implicit flash:Flash)
+@(trainingForm: Form[(String,java.util.Date,String)],trainings: Seq[Training], players: List[Player])(implicit flash:Flash)
 
 @import helper._
 
@@ -11,6 +11,8 @@
   @select(field = trainingForm("training"), options = trainings.map(x=>(x.name,x.name)), 'id -> "training", '_label -> "Training" )
   
   @inputDate(field = trainingForm("date"), 'id -> "date", '_label -> "Training Date")
+  
+  @inputText(trainingForm("trainer"),'id -> "trainer", '_label -> "Trainer")
   
   <h2>Players</h2>
   

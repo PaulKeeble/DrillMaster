@@ -30,8 +30,8 @@ deleteTraining = (btnObj) ->
 	$parentDiv.css('background-color','#FF5A55').fadeOut('slow',->$parentDiv.remove())
 	deleteTrainingAjax(trainingName)
 
-trainPlayerAjax = (player,training,date) ->
-	d = { 'player': player, 'training': training, 'date': date }
+trainPlayerAjax = (player,training,date,trainer) ->
+	d = { 'player': player, 'training': training, 'date': date, 'trainer': trainer }
 	c = {
 	    contentType: 'application/json',
 	    data: JSON.stringify(d),
@@ -45,7 +45,8 @@ trainPlayer = (btnObj) ->
 	playerName = $parentDiv.find('p').text()
 	trainingName = $('#training').val()
 	date = $('#date').val()
-	trainPlayerAjax(playerName,trainingName,date)
+	trainer = $('#trainer').val()
+	trainPlayerAjax(playerName,trainingName,date,trainer)
 	$parentDiv.css('background-color','#5AD055')
 
 

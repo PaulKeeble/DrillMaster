@@ -1,0 +1,21 @@
+@(trainings:List[(java.util.Date,List[PlayerTraining])],dateFormat:java.text.SimpleDateFormat)(implicit flash:Flash)
+
+@import java.util.Date
+
+@main("Announcements") {
+  <h1>Drillmaster</h1>
+
+  <h2>New Players</h2>
+
+  <p>You need to <a href="@routes.Players.form" id="navlink">create an account</a></p>
+
+  <h2>Training Announcements</h2>
+
+  @for( (date,trainingsOnDate) <- trainings) {
+    <h3>@dateFormat.format(date)</h3>
+	
+    @for( training <- trainingsOnDate ) {
+      <p class="indented">@training.player.name has been passed in @training.training.name by @training.trainer</p> 
+    }
+  }
+}

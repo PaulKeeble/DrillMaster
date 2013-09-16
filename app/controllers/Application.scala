@@ -19,7 +19,7 @@ object Application extends Controller {
   )
 
   def index = Action {
-    Redirect(routes.Players.form)
+    Redirect(routes.PlayerTrainings.announcements)
   }
   
   /**

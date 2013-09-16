@@ -13,33 +13,33 @@ import java.text.SimpleDateFormat
 
 object PlayerTrainings extends Controller with Secured {
     val playerTrainingForm = Form(tuple(
-    "player" -> nonEmptyText,
     "training" -> nonEmptyText,
-    "date" -> date
+    "date" -> date,
+    "trainer" -> nonEmptyText
     )
   )
-  
 
   def index = isAdmin { implicit request =>
-    val filledForm = playerTrainingForm.fill(("","Basic Infantry",new Date))
+    val filledForm = playerTrainingForm.fill(("Basic Infantry",new Date,""))
     Ok(views.html.playertrainings.index(filledForm,Training.all,Player.all))
   }
 
   implicit val rds = (
     (__ \ 'player).read[String] and
     (__ \ 'training).read[String] and
-    (__ \ 'date).read[String]
+    (__ \ 'date).read[String] and
+    (__ \ 'trainer).read[String]
   ).tupled
   
   val dateFormat = new SimpleDateFormat("yyyy-MM-dd")
-    
+
   def train = isAdmin(parse.json) { implicit request =>
-    request.body.validate[(String,String,String)].map {
-      case (playerName,trainingName,date) => {
+    request.body.validate[(String,String,String,String)].map {
+      case (playerName,trainingName,date,trainer) => {
         val parsedDate = dateFormat.parse(date)
         val res = Player.find(playerName).map { p => 
           Training.find(trainingName).map { t=>
-            val pt = PlayerTraining(p,t,parsedDate)
+            val pt = PlayerTraining(p,t,parsedDate,trainer)
             PlayerTraining.add(pt)
             
             Ok("OK")
@@ -55,11 +55,9 @@ object PlayerTrainings extends Controller with Secured {
       e => BadRequest("Detected error:"+ JsError.toFlatJson(e))
     }
   }
-//  def sayHello = Action(parse.json) { request =>
-//    request.body.validate[(String, Long)].map{ 
-//      case (name, age) => Ok("Hello " + name + ", you're "+age)
-//    }.recoverTotal{
-//      e => BadRequest("Detected error:"+ JsError.toFlatJson(e))
-//    }
-//  }
+
+  def announcements = IsAuthenticated { implicit request =>
+    val trainings = PlayerTraining.announcements
+    Ok(views.html.playertrainings.announcements(trainings,dateFormat))
+  }
 }
