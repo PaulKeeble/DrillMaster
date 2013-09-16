@@ -30,6 +30,8 @@ GET     /playertraining             controllers.PlayerTrainings.index
 GET     /playertraining/announcements controllers.PlayerTrainings.announcements
 POST    /playertraining             controllers.PlayerTrainings.train
 
+GET     /roster                     controllers.PlayerTrainings.roster
+
 GET     /search                     controllers.Search.form
 POST    /search                     controllers.Search.find
 

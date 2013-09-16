@@ -1,10 +1,12 @@
 package models
 
-abstract class Rank(val picture:String) {
+abstract class Rank(val picture:String) extends Ordered[Rank] {
   def displayName = "Tier1 " + name
   
   //objects finish with $ so we drop that from the name so it would be Recruit instead of Recruit$
-  def name = getClass.getSimpleName.dropRight(1) 
+  def name = getClass.getSimpleName.dropRight(1)
+  
+  def compare(that: Rank) =  Rank.orderedMap(this) - Rank.orderedMap(that)
 }
 
 object Rank {
@@ -17,6 +19,8 @@ object Rank {
   }
   
   def list = List(Recruit,Regular,Veteran,Admin,Instructor).map(r => r.name)
+  
+  val orderedMap = Map(Recruit->5,Regular->4,Veteran->3,Instructor->2,Admin->1)
 }
 
 object Recruit extends Rank("recruit.paa")

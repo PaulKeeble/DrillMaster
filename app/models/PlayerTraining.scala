@@ -8,8 +8,6 @@ import play.api.db._
 import play.api.Play.current
 import java.util.Calendar
 
-
-
 case class PlayerTraining(player:Player,training:Training,date:Date,trainer:String)
 
 object PlayerTraining {
@@ -18,6 +16,21 @@ object PlayerTraining {
   
   val rowParser = Player.rowParser ~ Training.rowParser ~ ptParser map {
     case player ~ training ~ playerTraining => PlayerTraining(player,training,playerTraining._1,playerTraining._2)
+  }
+  
+  def all(): List[PlayerTraining] = DB.withConnection { implicit c =>
+    SQL(
+        """select * from trainings t
+        join player_trainings pt on pt.training = t.name
+        join players p on p.name = pt.player
+         """)
+         .as(rowParser.*)
+  }
+  
+  def roster() = {
+    val byRank = all.groupBy(x => x.player.rank).mapValues( lpt => lpt.groupBy(x => x.player).toList).toList
+    
+    byRank.sortWith( (lhs,rhs) => lhs._1.compareTo(rhs._1) <0)
   }
   
   def last30Days(): List[PlayerTraining] = DB.withConnection { implicit c =>

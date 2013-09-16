@@ -1,0 +1,26 @@
+@(trainings: List[(models.Rank, List[(models.Player, List[models.PlayerTraining])])])(implicit flash:Flash)
+
+@import helper._
+
+@main("Roster") {
+
+	<h1>Roster</h1>
+
+	@for((rank,players) <- trainings) {
+		<h2>@rank.name</h2>
+		
+		@for( (player,playertrainings) <- players) {
+			<div class="trainedPlayer">
+				<p class="playerName">@player.name</p>
+				
+				<ul class="trainingList">
+				(
+					@for( playertraining <- playertrainings) {
+						<li class="trainingListItem">@playertraining.training.name</li>
+					}
+				)
+				</ul>
+			</div>
+		}
+	}
+}
