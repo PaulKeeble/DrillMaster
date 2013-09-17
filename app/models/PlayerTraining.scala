@@ -33,6 +33,10 @@ object PlayerTraining {
     byRank.sortWith( (lhs,rhs) => lhs._1.compareTo(rhs._1) <0)
   }
   
+  def allTrainingsByPlayer = {
+    all.groupBy(_.player)
+  }
+  
   def last30Days(): List[PlayerTraining] = DB.withConnection { implicit c =>
     val cal = Calendar.getInstance
     cal.add(Calendar.MONTH,-1)

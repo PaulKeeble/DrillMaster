@@ -61,4 +61,8 @@ object Player {
     SQL("select * from players where name={name}").on(
         'name->name).as(rowParser.singleOpt)
   }
+  
+  def allPlayersSortedByRank = {
+    all.groupBy(_.rank).toList.sortWith((lhs,rhs) => lhs._1.compareTo(rhs._1) < 0)
+  }
 }

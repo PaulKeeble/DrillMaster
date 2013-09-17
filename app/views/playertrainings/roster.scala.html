@@ -1,4 +1,4 @@
-@(trainings: List[(models.Rank, List[(models.Player, List[models.PlayerTraining])])])(implicit request:Request[play.api.mvc.AnyContent])
+@(playersByRank: List[(models.Rank,List[models.Player])], trainingsByPlayer: Map[models.Player,List[models.PlayerTraining]] )(implicit request:Request[play.api.mvc.AnyContent])
 
 @import helper._
 
@@ -6,17 +6,18 @@
 
 	<h1>Roster</h1>
 
-	@for((rank,players) <- trainings) {
-		<h2>@rank.name</h2>
+	@for((rank,players) <- playersByRank) {
+		<img width="40" src="@routes.Assets.at("images/"+rank.name+".png")"/>
+		<h2 class="rankName">@rank.name</h2>
 		
-		@for( (player,playertrainings) <- players) {
+		@for( player <- players) {
 			<div class="trainedPlayer">
 				<p class="playerName">@player.name</p>
 				
 				<ul class="trainingList">
 				(
-					@for( playertraining <- playertrainings) {
-						<li class="trainingListItem">@playertraining.training.name</li>
+					@for( playertraining <- trainingsByPlayer.get(player)) {
+						@playertraining.map(_.training.name).sorted.mkString(" , ")
 					}
 				)
 				</ul>

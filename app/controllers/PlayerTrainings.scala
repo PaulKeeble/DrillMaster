@@ -62,7 +62,8 @@ object PlayerTrainings extends Controller with Secured {
   }
   
   def roster = Action { implicit request =>
-  	val trainings = PlayerTraining.roster
-  	Ok(views.html.playertrainings.roster(trainings))
+    val playersByRank = Player.allPlayersSortedByRank
+  	val trainingsByPlayer = PlayerTraining.allTrainingsByPlayer
+  	Ok(views.html.playertrainings.roster(playersByRank,trainingsByPlayer))
   }
 }
