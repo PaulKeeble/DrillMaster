@@ -53,10 +53,12 @@ trainPlayer = (btnObj) ->
 	else
 		alert "Trainer must be set"
 	
-
+unselectPlayers = (btnObj) ->
+	$("div.simplePlayer").css('background-color','#FFFFFF')
 
 $(document).ready(()-> 
 	$(".deletePlayerButton").on('click', (btnObj) -> deletePlayer(btnObj))
 	$(".deleteTrainingButton").on('click', (btnObj) -> deleteTraining(btnObj))
 	$(".trainButton").on('click', (btnObj) -> trainPlayer(btnObj))
+	$("#clearTrainedButton").on('click', (btnObj) -> unselectPlayers(btnObj))
 )
