@@ -1,10 +1,10 @@
-SquadXML
+DrillMaster
 ========
 
 This is a web program that can produce XML squad files and the picture links for Arma 2 and Arma 3 games while allowing the simple
 changing of ranks of players by an admin. It makes the creation of individual squad XML files much easier than by hand.
 
-To build the project you need play 2.0.4 installed, SBT 0.11.3 and java 6 or up.
+To build the project you need play 2.10 installed, SBT 0.11.3 and java 6 or up.
 
 Running a building can be done using `play dist`.
 
