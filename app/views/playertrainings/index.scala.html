@@ -1,4 +1,4 @@
-@(trainingForm: Form[(String,java.util.Date,String)],trainings: Seq[Training], players: List[Player])(implicit flash:Flash)
+@(trainingForm: Form[(String,java.util.Date,String)],trainings: Seq[Training], players: List[Player])(implicit request:Request[play.api.mvc.AnyContent])
 
 @import helper._
 

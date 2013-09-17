@@ -1,4 +1,4 @@
-@(trainings: List[(models.Rank, List[(models.Player, List[models.PlayerTraining])])])(implicit flash:Flash)
+@(trainings: List[(models.Rank, List[(models.Player, List[models.PlayerTraining])])])(implicit request:Request[play.api.mvc.AnyContent])
 
 @import helper._
 

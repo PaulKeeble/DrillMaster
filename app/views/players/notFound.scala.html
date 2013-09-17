@@ -1,4 +1,4 @@
-@(name:String)(implicit flash:Flash)
+@(name:String)(implicit request:Request[play.api.mvc.AnyContent])
 
 @main("Player not found") {
 	<p>Player @name not found</p>
