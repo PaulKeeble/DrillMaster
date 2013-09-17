@@ -16,12 +16,14 @@
   
   <h2>Players</h2>
   
-  @for(p <- players) {
-  
-    <div class="simplePlayer">
-    	<p>@p.name</p>
-    	
-        <button type="button" class="trainButton" id="@p.name">Train</button>
-    </div>
-  }
+  <div class="columns4">
+	  @for(p <- players) {
+	  
+	    <div class="simplePlayer">
+	    	<p>@p.name</p>
+	    	
+	        <button type="button" class="trainButton" id="@p.name"/>
+	    </div>
+	  }
+  </div>
 }

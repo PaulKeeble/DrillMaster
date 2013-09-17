@@ -46,8 +46,13 @@ trainPlayer = (btnObj) ->
 	trainingName = $('#training').val()
 	date = $('#date').val()
 	trainer = $('#trainer').val()
-	trainPlayerAjax(playerName,trainingName,date,trainer)
-	$parentDiv.css('background-color','#5AD055')
+	
+	if(trainer!="" && trainingName!="")
+		trainPlayerAjax(playerName,trainingName,date,trainer)
+		$parentDiv.css('background-color','#AACCFF')
+	else
+		alert "Trainer must be set"
+	
 
 
 $(document).ready(()-> 
