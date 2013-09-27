@@ -32,6 +32,8 @@ POST    /playertraining             controllers.PlayerTrainings.train
 
 GET     /roster                     controllers.PlayerTrainings.roster
 
+GET     /recruitevaluation          controllers.Recruits.index
+
 GET     /search                     controllers.Search.form
 POST    /search                     controllers.Search.find
 

@@ -27,20 +27,12 @@ object PlayerTraining {
          .as(rowParser.*)
   }
   
-  def roster() = {
-    val byRank = all.groupBy(x => x.player.rank).mapValues( lpt => lpt.groupBy(x => x.player).toList).toList
-    
-    byRank.sortWith( (lhs,rhs) => lhs._1.compareTo(rhs._1) <0)
-  }
-  
   def allTrainingsByPlayer = {
     all.groupBy(_.player)
   }
   
   def last30Days(): List[PlayerTraining] = DB.withConnection { implicit c =>
-    val cal = Calendar.getInstance
-    cal.add(Calendar.MONTH,-1)
-    val fromDate = cal.getTime
+    val fromDate = Dates.oneMonthAgo
     
     SQL(
         """select * from trainings t
@@ -59,12 +51,4 @@ object PlayerTraining {
         SQL("insert into player_trainings (player,training,date,trainer) values ({player},{training},{date},{trainer})").on(
           'player -> aTraining.player.name, 'training -> aTraining.training.name, 'date -> aTraining.date, 'trainer -> aTraining.trainer).executeUpdate()
   }
-  
-//  
-//  def delete(name: String) {
-//    DB.withConnection { implicit c =>
-//      SQL("delete from trainings where name = {name}").on(
-//        'name -> name).executeUpdate()
-//    }
-//  }
 }

@@ -9,19 +9,27 @@ import play.api.data.validation.Constraints._
 import models.Player
 
 object Players extends Controller with Secured {
-  val playerForm = Form(mapping(
+  val createForm = Form(mapping(
     "name" -> nonEmptyText,
     "bisId" -> nonEmptyText,
     "remark" -> text
-    )(Player.apply)(Player.unapplyWithoutRank)
+    )(Player.applyWithoutRank)(Player.unapplyWithoutRank)
+  )
+  
+  val editForm = Form(mapping(
+    "name" -> nonEmptyText,
+    "bisId" -> nonEmptyText,
+    "remark" -> text,
+    "joined" -> date
+    )(Player.applyWithDate)(Player.unapplyWithDate)
   )
   
   def form = IsAuthenticated { implicit request =>
-    Ok(views.html.players.create(playerForm))
+    Ok(views.html.players.create(createForm))
   }
 
   def create = IsAuthenticated { implicit request =>
-    playerForm.bindFromRequest.fold(
+    createForm.bindFromRequest.fold(
       errors => BadRequest(views.html.players.create(errors)),
       player => {
       	Player.find(player.name) match {
@@ -38,12 +46,12 @@ object Players extends Controller with Secured {
   
   def update(name:String) = IsAuthenticated { implicit request =>
     Player.find(name) match {
-      case Some(player) => playerForm.bindFromRequest.fold(
+      case Some(player) => editForm.bindFromRequest.fold(
         errors => BadRequest(views.html.players.show(name,errors)),
         submitPlayer =>  {
           val updated = player.limitedUpdate(submitPlayer)
           Player.update(updated)
-          Ok(views.html.players.show(name,playerForm.fill(updated)))
+          Ok(views.html.players.show(name,createForm.fill(updated)))
         }
       )
       
@@ -59,7 +67,7 @@ object Players extends Controller with Secured {
   def show(name:String) = IsAuthenticated { implicit request =>
     Player.find(name) match {
       case Some(player) =>  {
-       val filledForm = playerForm.fill(player)
+       val filledForm = editForm.fill(player)
        Ok(views.html.players.show(name,filledForm)) 
       } 
       case None => Status(404)

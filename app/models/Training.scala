@@ -39,4 +39,6 @@ object Training {
         'name -> name).executeUpdate()
     }
   }
+  
+  def requiredRecruitTraining : List[Training] = List(Training("Basic Infantry"),Training("Advanced Infantry"))
 }

@@ -60,7 +60,7 @@ object PlayerTrainings extends Controller with Secured {
     val trainings = PlayerTraining.announcements
     Ok(views.html.playertrainings.announcements(trainings,dateFormat))
   }
-  
+
   def roster = Action { implicit request =>
     val playersByRank = Player.allPlayersSortedByRank
   	val trainingsByPlayer = PlayerTraining.allTrainingsByPlayer
