@@ -1,9 +1,12 @@
 @(trainingForm: Form[(String,java.util.Date,String)],trainings: Seq[Training], players: List[Player])(implicit request:Request[play.api.mvc.AnyContent])
 
 @import helper._
+@import controllers.TrainingPages
 
 @main("Player Trainings") {
 
+  @playertrainings.menu(TrainingPages.TrainPlayer)
+  
   <h1>Player Training</h1>
   
   <h2>Training</h2>

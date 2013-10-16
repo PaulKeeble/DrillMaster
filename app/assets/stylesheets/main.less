@@ -187,3 +187,42 @@ dl dd {
   position: relative;
   top:-10px;
 }
+
+#subnavigation {
+  border-bottom-style:solid;
+  border-color: black;
+  border-width: 1px;
+  
+  ul {
+    margin: 0;
+    list-style: none;
+    
+    .selectedsubnavlink {
+      background-color: #CCC;
+    }
+    
+    li {
+      display: inline-block;
+      font-family: arial;
+      font-size: 0.8em;
+      background-color: @background-color;
+      padding: 0em 0.8em 1em 0.8em;
+      
+      border-top-style:solid;
+      border-right-style:solid;
+      border-left-style:solid;
+      border-bottom-style:none;
+      border-color: black;
+      border-width: 1px;
+      
+      a {
+        color: @text-color;
+        text-decoration: none;
+        
+        &:hover {
+          color: black;
+        }
+      }
+	}
+  }
+}

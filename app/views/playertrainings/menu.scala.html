@@ -1,0 +1,21 @@
+@(selected:controllers.TrainingPages.TrainingPage)
+
+@import controllers.TrainingPages
+
+@page(route: play.api.mvc.Call, linkText:String, page:controllers.TrainingPages.TrainingPage) = {
+  <li
+    @if(page == selected) {
+      class="selectedsubnavlink"
+    }
+  >
+  <a href="@route" id="subnavlink">@linkText</a>
+  </li>
+}
+
+<div id="subnavigation">
+  <ul>
+    @page(routes.PlayerTrainings.index,"Train Player",TrainingPages.TrainPlayer)
+    @page(routes.PlayerTrainings.all,"Delete Player Training",TrainingPages.DeletePlayerTraining)
+    @page(routes.Trainings.list,"Trainings",TrainingPages.Training)
+  </ul>
+</div>

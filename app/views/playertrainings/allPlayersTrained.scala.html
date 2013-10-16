@@ -2,8 +2,11 @@
 
 @import java.util.Date
 @import helper._
+@import controllers.TrainingPages
 
 @main("Player Trainings") {
+  @playertrainings.menu(TrainingPages.DeletePlayerTraining)
+  
   <h1>Player Training</h1>
   
   @for( t <- trainings) {

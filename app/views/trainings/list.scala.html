@@ -1,9 +1,11 @@
 @(trainings: List[Training],trainingForm: Form[String])(implicit request:Request[play.api.mvc.AnyContent],flash:Flash)
 
 @import helper._
+@import controllers.TrainingPages
 
 @main("Trainings") {
-
+  @playertrainings.menu(TrainingPages.Training)
+  
   <h1>Trainings</h1>
   
   <h2>Add New Training</h2>
