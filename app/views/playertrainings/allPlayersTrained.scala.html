@@ -1,0 +1,23 @@
+@(trainingForm: Form[(java.util.Date,String,String,String)], trainings:List[PlayerTraining],dateFormat:java.text.SimpleDateFormat)(implicit request:Request[play.api.mvc.AnyContent])
+
+@import java.util.Date
+@import helper._
+
+@main("Player Trainings") {
+  <h1>Player Training</h1>
+  
+  @for( t <- trainings) {
+    @defining( trainingForm.fill((t.date,t.player.name,t.training.name,t.trainer)) ) { filledForm =>
+      @form(routes.PlayerTrainings.delete) {
+  	    <div class="training">
+  	      @inputDate(filledForm("date"), '_label -> "Date",'readonly -> "readonly",'class->"disabled")
+  	      @inputText(filledForm("player"),'_label -> "Player",'readonly -> "readonly",'class->"disabled")
+  	      @inputText(filledForm("training"),'_label -> "Training",'readonly -> "readonly",'class->"disabled")
+  	      @inputText(filledForm("trainer"),'_label -> "Trainer",'readonly -> "readonly",'class->"disabled")
+  	     
+          <input class="deleteButtonForAllTrainings" type="submit" value="">
+  	    </div>
+  	  }
+  	}
+  } 
+}

@@ -44,11 +44,24 @@ object PlayerTraining {
   }
   
   def announcements() = {
-    last30Days.groupBy(x => x.date).toList.sortWith( (lhs,rhs) => lhs._1.compareTo(rhs._1)  > 0)
+    last30Days.groupBy(x => x.date).toList.sortWith( (lhs,rhs) => Dates.descending(lhs._1,rhs._1))
   }
   
   def add(aTraining:PlayerTraining) = DB.withConnection { implicit c =>
         SQL("insert into player_trainings (player,training,date,trainer) values ({player},{training},{date},{trainer})").on(
           'player -> aTraining.player.name, 'training -> aTraining.training.name, 'date -> aTraining.date, 'trainer -> aTraining.trainer).executeUpdate()
+  }
+  
+  def delete(aTraining:PlayerTraining) = DB.withConnection { implicit c =>
+    SQL("delete from player_trainings where player={player} and training={training} and trainer={trainer} and date={date}").on(
+        'player -> aTraining.player.name, 'training -> aTraining.training.name, 'date -> aTraining.date, 'trainer -> aTraining.trainer).executeUpdate()
+  }
+  
+  def delete(playerName:String,trainingName:String,date:Date,trainer:String) : Boolean = {
+    val found = for(player <- Player.find(playerName); training <- Training.find(trainingName)) yield (player,training)
+    found match {
+      case None => false
+      case Some((player,training)) => delete(PlayerTraining(player,training,date,trainer)); false
+    }
   }
 }

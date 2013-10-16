@@ -10,17 +10,25 @@ import models.{Training,Player,PlayerTraining}
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
 import java.text.SimpleDateFormat
+import models.Dates
 
 object PlayerTrainings extends Controller with Secured {
-    val playerTrainingForm = Form(tuple(
+  val trainingForm = Form(tuple(
     "training" -> nonEmptyText,
     "date" -> date,
     "trainer" -> nonEmptyText
     )
   )
+  
+  val playerTrainingForm = Form(tuple(
+	"date" -> date,
+	"player" -> nonEmptyText,
+    "training" -> nonEmptyText,
+    "trainer" -> nonEmptyText
+  ))
 
   def index = isAdmin { implicit request =>
-    val filledForm = playerTrainingForm.fill(("Basic Infantry",new Date,""))
+    val filledForm = trainingForm.fill(("Basic Infantry",new Date,""))
     Ok(views.html.playertrainings.index(filledForm,Training.all,Player.all))
   }
 
@@ -65,5 +73,22 @@ object PlayerTrainings extends Controller with Secured {
     val playersByRank = Player.allPlayersSortedByRank
   	val trainingsByPlayer = PlayerTraining.allTrainingsByPlayer
   	Ok(views.html.playertrainings.roster(playersByRank,trainingsByPlayer))
+  }
+  
+  def all = isAdmin { implicit request =>
+    
+    val allTrainings = PlayerTraining.all.sortWith((lhs,rhs) => Dates.descending(lhs.date,rhs.date))
+    Ok(views.html.playertrainings.allPlayersTrained(playerTrainingForm,allTrainings,dateFormat))
+  }
+  
+  def delete = isAdmin { implicit request => 
+    playerTrainingForm.bindFromRequest.fold(
+      errors => Redirect(routes.PlayerTrainings.all),
+      playerTraining => {
+        val (date,playerName,trainingName,trainer) = playerTraining
+        PlayerTraining.delete(playerName, trainingName, date, trainer);
+        Redirect(routes.PlayerTrainings.all)
+      }
+    )
   }
 }

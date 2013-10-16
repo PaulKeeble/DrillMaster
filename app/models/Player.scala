@@ -69,7 +69,7 @@ object Player {
   }
   
   def allPlayersSortedByRank = {
-    all.groupBy(_.rank).toList.sortWith((lhs,rhs) => lhs._1.compareTo(rhs._1) < 0)
+    all.groupBy(_.rank).toList.sortWith( (lhs,rhs) => lhs._1 < (rhs._1) )
   }
   
   def recruits = {

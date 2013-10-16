@@ -11,4 +11,6 @@ object Dates {
       cal.add(MONTH,-1)
       cal.getTime
 	}
+	
+	def descending(lhs:Date,rhs:Date) = lhs.compareTo(rhs)>0
 }
