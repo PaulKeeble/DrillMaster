@@ -16,7 +16,7 @@ object Ranks extends Controller with Secured {
   def list() = isAdmin { implicit request =>
     val players = Player.all
     
-    Ok(views.html.ranks.list(players,Rank.list,rankForm))
+    Ok(views.html.ranks.list(players,Rank.list,rankForm,JoinDate.joinForm))
   }
   
   def update(name:String) = isAdmin { implicit request =>

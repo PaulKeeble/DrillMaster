@@ -12,6 +12,8 @@ case class Player(name: String, bisId: String,remark:String,rank:Rank=Recruit,jo
   
   def updateRank(newRank:Rank) = copy(rank = newRank)
   
+  def updateJoined(newJoinDate:Date) = copy(joined= newJoinDate)
+  
   def limitedUpdate(other: Player) = copy(bisId=other.bisId, remark=other.remark)
 }
 

@@ -1,10 +1,10 @@
-@(players: List[Player],ranks:List[String],rankForm: Form[String])(implicit request:Request[play.api.mvc.AnyContent])
+@(players: List[Player],ranks:List[String],rankForm: Form[String],joinForm: Form[java.util.Date])(implicit request:Request[play.api.mvc.AnyContent])
 
 @import helper._
 
-@main("Update player ranks") {
+@main("Admin players") {
 
-  <h1>Player Rank Administration</h1>
+  <h1>Player Administration</h1>
   
   @for(p <- players) {
   
@@ -20,8 +20,16 @@
 		  	</dd>
 		  </dl>
 		  @defining(rankForm.fill(p.rank.name)) { filledForm =>
-			@select(filledForm("rank"),options(ranks),'onchange -> "submit()")
+			@select(filledForm("rank"),options(ranks),'_label -> "Rank",'onchange -> "submit()")
 		  }
+      }
+      
+      @form(routes.JoinDate.update(p.name)) {
+        @defining(joinForm.fill(p.joined)) { filledForm =>
+          <span class="noInfo">
+		  @inputDate(filledForm("joined"),'_label -> "Joined",'onchange -> "submit()")
+		  </span>
+		}
       }
 
 	  <dl id="delete_button">
@@ -32,7 +40,6 @@
       </dl>
     
       <hr/>
-    
     </div>
   }
 }
