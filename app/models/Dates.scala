@@ -6,9 +6,18 @@ import java.util.Date
 import java.util.Calendar._
 
 object Dates {
-	def oneMonthAgo:Date = {
+	def oneMonthAgo:Date = nMonthsAgo(1)
+	
+	def twoMonthsAgo:Date = nMonthsAgo(2)
+
+	def today = {
 	  val cal = Calendar.getInstance
-      cal.add(MONTH,-1)
+	  cal.getTime
+	}
+	
+	def nMonthsAgo(n:Int) = {
+	  val cal = Calendar.getInstance
+      cal.add(MONTH,-1*n)
       cal.getTime
 	}
 	

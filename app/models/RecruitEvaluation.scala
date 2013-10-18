@@ -2,6 +2,7 @@ package models
 
 import java.util.Date
 import java.util.Calendar
+import dates.ComparableDate
 
 case class RecruitEvaluation(player:Player,trainings:List[(Date,Training)]) {
   
@@ -12,17 +13,31 @@ case class RecruitEvaluation(player:Player,trainings:List[(Date,Training)]) {
 }
 
 object RecruitEvaluation {
-  def recruitsMissingTrainingOneMonth = {
-     val oneMonthAgo = Dates.oneMonthAgo
-     val recruits = Player.recruits.filter(_.joined.compareTo(oneMonthAgo)<0 )
-     val trainings = PlayerTraining.allTrainingsByPlayer
+  private def evaluateRecruits(recruits:List[Player]) = {
+      val trainings = PlayerTraining.allTrainingsByPlayer
      
      val re =for( recruit <- recruits) yield {
-       val ts = trainings(recruit).map(t => (t.date,t.training))
+       val ts = trainings.get(recruit).map{ _.map(t => (t.date,t.training)) }
        
-       RecruitEvaluation(recruit,ts)
+       ts match {
+         case Some(trainings) => RecruitEvaluation(recruit,trainings)
+         case None => RecruitEvaluation(recruit,List())
+       }
      }
      
      re.filterNot(_.hasTrainings(Training.requiredRecruitTraining))
+  }
+  
+  def recruitsMissingTrainingOneMonth = {
+     val oneMonthAgo = Dates.oneMonthAgo
+     val twoMonthsAgo = Dates.twoMonthsAgo
+     val recruits = Player.recruits.filter(r => twoMonthsAgo <= r.joined && r.joined < oneMonthAgo)
+     evaluateRecruits(recruits)
+  }
+  
+  def recruitsMissingTrainingTwoMonths = {
+     val twoMonthsAgo = Dates.twoMonthsAgo
+     val recruits = Player.recruits.filter(r => r.joined < twoMonthsAgo)
+     evaluateRecruits(recruits)
   }
 }

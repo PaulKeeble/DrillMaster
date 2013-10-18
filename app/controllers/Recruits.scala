@@ -10,7 +10,7 @@ import models.RecruitEvaluation
 object Recruits extends Controller with Secured  {
   def index = isAdmin { implicit request =>
      val oneMonthTrainingDeficient = RecruitEvaluation.recruitsMissingTrainingOneMonth
-     
-     Ok(views.html.recruits.index(oneMonthTrainingDeficient))
+     val twoMonthTrainingDeficient = RecruitEvaluation.recruitsMissingTrainingTwoMonths
+     Ok(views.html.recruits.index(oneMonthTrainingDeficient,twoMonthTrainingDeficient))
   }
 }

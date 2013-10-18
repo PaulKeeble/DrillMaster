@@ -1,11 +1,25 @@
-@(oneMonth: List[models.RecruitEvaluation])(implicit request:Request[play.api.mvc.AnyContent])
+@(oneMonth: List[models.RecruitEvaluation],twoMonth: List[models.RecruitEvaluation])(implicit request:Request[play.api.mvc.AnyContent])
 
 @main("Recruit Evaulation") {
   <h1>Recruit Evaulation</h1>
   
-  <h2>>1 month</h2>
+  <h2>1-2 months missing training</h2>
   
   @for(re <- oneMonth) {
+    <div class="trainedPlayer">
+      <p class="playerName">@re.player.name</p>
+				
+      <ul class="trainingList">
+      (
+        @re.trainings.map(_._2.name).sorted.mkString(" , ")
+      )
+      </ul>
+    </div>
+  }
+  
+  <h2>2 months or more missing training</h2>
+  
+  @for(re <- twoMonth) {
     <div class="trainedPlayer">
       <p class="playerName">@re.player.name</p>
 				
