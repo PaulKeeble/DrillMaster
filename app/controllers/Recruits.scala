@@ -11,6 +11,7 @@ object Recruits extends Controller with Secured  {
   def index = isAdmin { implicit request =>
      val oneMonthTrainingDeficient = RecruitEvaluation.recruitsMissingTrainingOneMonth
      val twoMonthTrainingDeficient = RecruitEvaluation.recruitsMissingTrainingTwoMonths
-     Ok(views.html.recruits.index(oneMonthTrainingDeficient,twoMonthTrainingDeficient))
+     val recruitsMeetingPromotion = RecruitEvaluation.recruitsMeetingPromotion
+     Ok(views.html.recruits.index(oneMonthTrainingDeficient,twoMonthTrainingDeficient,recruitsMeetingPromotion))
   }
 }

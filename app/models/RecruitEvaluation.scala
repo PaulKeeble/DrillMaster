@@ -14,30 +14,37 @@ case class RecruitEvaluation(player:Player,trainings:List[(Date,Training)]) {
 
 object RecruitEvaluation {
   private def evaluateRecruits(recruits:List[Player]) = {
-      val trainings = PlayerTraining.allTrainingsByPlayer
+    val trainings = PlayerTraining.allTrainingsByPlayer
      
-     val re =for( recruit <- recruits) yield {
-       val ts = trainings.get(recruit).map{ _.map(t => (t.date,t.training)) }
+    for( recruit <- recruits) yield {
+      val ts = trainings.get(recruit).map{ _.map(t => (t.date,t.training)) }
        
-       ts match {
-         case Some(trainings) => RecruitEvaluation(recruit,trainings)
-         case None => RecruitEvaluation(recruit,List())
-       }
-     }
-     
-     re.filterNot(_.hasTrainings(Training.requiredRecruitTraining))
+      ts match {
+        case Some(trainings) => RecruitEvaluation(recruit,trainings)
+        case None => RecruitEvaluation(recruit,List())
+      }
+    } 
   }
   
   def recruitsMissingTrainingOneMonth = {
      val oneMonthAgo = Dates.oneMonthAgo
      val twoMonthsAgo = Dates.twoMonthsAgo
      val recruits = Player.recruits.filter(r => twoMonthsAgo <= r.joined && r.joined < oneMonthAgo)
-     evaluateRecruits(recruits)
+     val evaluations = evaluateRecruits(recruits)
+     evaluations.filterNot(_.hasTrainings(Training.requiredRecruitTraining))
   }
   
   def recruitsMissingTrainingTwoMonths = {
      val twoMonthsAgo = Dates.twoMonthsAgo
      val recruits = Player.recruits.filter(r => r.joined < twoMonthsAgo)
-     evaluateRecruits(recruits)
+     val evaluations = evaluateRecruits(recruits)
+     evaluations.filterNot(_.hasTrainings(Training.requiredRecruitTraining))
+  }
+  
+  def recruitsMeetingPromotion = {
+    val oneMonthAgo = Dates.oneMonthAgo
+    val recruits = Player.recruits.filter(r => r.joined < oneMonthAgo)
+    val evaluations = evaluateRecruits(recruits)
+    evaluations.filter(_.hasTrainings(Training.requiredRecruitTraining))
   }
 }
