@@ -2,7 +2,7 @@ package models
 
 import java.util.Date
 import java.util.Calendar
-import dates.ComparableDate
+import models.dates.ComparableDate
 
 case class RecruitEvaluation(player:Player,trainings:List[(Date,Training)]) {
   
