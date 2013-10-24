@@ -27,15 +27,19 @@ object Player {
   
   def unapplyWithDate(player:Player) = Some((player.name,player.bisId,player.remark,player.joined))
   
-  val rowParser = {
-    get[String]("players.bisId") ~ 
-    get[String]("players.name") ~
-    get[String]("players.remark") ~
-    get[String]("players.rank") ~
-    get[Date]("players.joined") map {
+  def parser(tableName:String) = {
+    get[String](s"$tableName.bisId") ~ 
+    get[String](s"$tableName.name") ~
+    get[String](s"$tableName.remark") ~
+    get[String](s"$tableName.rank") ~
+    get[Date](s"$tableName.joined") map {
         case bisId ~ name ~ remark ~ rank ~ joined => Player(name, bisId,remark,Rank(rank),joined)
       }
   }
+  
+  val rowParser = parser("players")
+  
+  val archivedParser = parser("archived_players")
 
   def all(): List[Player] = DB.withConnection { implicit c =>
     SQL("select * from players order by name").as(rowParser.*)
@@ -76,5 +80,39 @@ object Player {
   
   def recruits = {
     all.filter(_.rank == Recruit)
+  }
+  
+  def archive(name:String) = DB.withConnection { implicit c =>
+    val p = find(name)
+    p match {
+      case Some(player) => {
+        SQL("insert into archived_players (name,bisId,remark,rank,joined) values ({name},{bisId},{remark},{rank},{joined})").on(
+        'name -> player.name, 'bisId -> player.bisId, 'rank -> player.rank.name, 'remark->player.remark,'joined -> player.joined).executeUpdate()
+        
+        delete(player.name)
+      }
+      case None => Unit
+    }
+  }
+  
+  def deleteArchivedPlayer(name:String) = DB.withConnection { implicit c =>
+    SQL("delete from archived_players where name = {name}").on('name -> name).executeUpdate()
+  }
+  
+  def restore(playerName:String) = DB.withConnection { implicit c =>
+    val player = SQL("select * from archived_players where name={name}").on(
+        'name->playerName).as(archivedParser.singleOpt)
+        
+    player match {
+      case Some(p) => {
+        create(p)
+        deleteArchivedPlayer(playerName)
+      }
+      case None => 0
+    }
+  }
+  
+  def allArchived: List[Player] = DB.withConnection { implicit c =>
+    SQL("select * from archived_players").as(archivedParser.*)
   }
 }

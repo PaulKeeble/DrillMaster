@@ -5,7 +5,7 @@ import play.Project._
 object ApplicationBuild extends Build {
 
     val appName         = "DrillMaster"
-    val appVersion      = "2.3.0"
+    val appVersion      = "2.4.0"
 
     val appDependencies = Seq(
       // Add your project dependencies here,

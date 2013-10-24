@@ -42,6 +42,9 @@ GET     /recruitevaluation          controllers.Recruits.index
 GET     /search                     controllers.Search.form
 POST    /search                     controllers.Search.find
 
+GET     /archive                    controllers.Archived.list
+POST    /archive                    controllers.Archived.unarchive
+
 GET     /players/:name/:file        controllers.Images.get(name,file)
 
 # Map static resources from the /public folder to the /assets URL path

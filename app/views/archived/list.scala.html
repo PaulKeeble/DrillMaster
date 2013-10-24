@@ -1,0 +1,19 @@
+@(players:List[models.Player],playerNameForm: Form[String])(implicit request:Request[play.api.mvc.AnyContent])
+
+@import helper._
+
+@main("Archived Players") {
+  @ranks.menu(AdminPages.Archive)
+
+  <h1>Archived Players</h1>
+  
+  @for(player <- players) {
+    <div class="noInfo">
+      @form(routes.Archived.unarchive) {
+        @defining(playerNameForm.fill(player.name)) { filledForm =>
+          @inputText(filledForm("name"),'_label -> "Player Name",'readonly -> "readonly",'class->"disabled")
+          <input type="submit" value="Unarchive">
+        }
+      }
+  }
+}

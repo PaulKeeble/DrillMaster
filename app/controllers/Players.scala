@@ -60,7 +60,7 @@ object Players extends Controller with Secured {
   }
   
   def delete(name:String) = isAdmin { implicit request => 
-    Player.delete(name)
+    Player.archive(name)
     Ok("done")
   }
   
